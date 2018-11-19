@@ -2,19 +2,17 @@ material {
     name : Lit,
     shadingModel : lit,
     parameters : [
-        { type : float3, name : baseColor },
-        { type : float,  name : roughness },
-        { type : float,  name : clearCoat },
-        { type : float,  name : clearCoatRoughness }
     ],
 }
 
 fragment {
     void material(inout MaterialInputs material) {
         prepareMaterial(material);
-        material.baseColor.rgb = materialParams.baseColor;
-        material.roughness = materialParams.roughness;
-        material.clearCoat = materialParams.clearCoat;
-        material.clearCoatRoughness = materialParams.clearCoatRoughness;
+        material.baseColor = vec4(0.5);
+        material.roughness = 1.0;
+        material.clearCoatRoughness = 1.0;
+        material.metallic = 0.0;
+        material.clearCoat = 0.0;
+        material.reflectance = 0.0;
     }
 }

@@ -115,7 +115,7 @@ class App {
   }
 
   render() {
-    const eye = [0, 0, 4], center = [0, 0, 0], up = [0, 1, 0];
+    const eye = [0, 0, 4000], center = [0, 0, 0], up = [0, 1, 0];
     const radians = Date.now() / 10000;
     vec3.rotateY(eye, eye, center, radians);
     this.camera.lookAt(eye, center, up);
@@ -128,7 +128,7 @@ class App {
     const width = this.canvas.width = window.innerWidth * dpr;
     const height = this.canvas.height = window.innerHeight * dpr;
     this.view.setViewport([0, 0, width, height]);
-    this.camera.setProjectionFov(45, width / height, 1.0, 10.0, Fov.VERTICAL);
+    this.camera.setProjectionFov(45, width / height, 1.0, 5000.0, Fov.VERTICAL);
   }
 }
 ```
@@ -142,12 +142,6 @@ Replace the **create material** comment with the following snippet.
 ```js {fragment="create material"}
 const material = engine.createMaterial(filamat_url);
 const matinstance = material.createInstance();
-
-const red = [0.8, 0.0, 0.0];
-matinstance.setColorParameter('baseColor', Filament.RgbType.sRGB, red);
-matinstance.setFloatParameter('roughness', 0.5);
-matinstance.setFloatParameter('clearCoat', 1.0);
-matinstance.setFloatParameter('clearCoatRoughness', 0.3);
 ```
 
 The next step is to create a renderable for the sphere. To help with this, we'll use the `IcoSphere`
@@ -167,6 +161,9 @@ const renderable = Filament.EntityManager.get().create();
 scene.addEntity(renderable);
 
 const icosphere = new Filament.IcoSphere(5);
+for (var i = 0; i < icosphere.vertices.length; i++) {
+    icosphere.vertices[i] *= 1000.0;
+}
 
 const vb = Filament.VertexBuffer.Builder()
   .vertexCount(icosphere.vertices.length / 3)
